@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://myroofgenius-api.onrender.com/$1" }
+  ]
+}
