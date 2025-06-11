@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: myroofgenius-api
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    rootDir: backend
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CLAUDE_API_KEY
+        sync: false
+
+databases:
+  - name: myroofgenius-db
+    databaseName: myroofgenius
+    user: postgres
+    plan: free
+    region: oregon
