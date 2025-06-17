@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -17,7 +17,8 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
           POSTGRES_DB: test_db
-        ports: ["5432:5432"]
+        ports:
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -32,7 +33,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -40,18 +41,27 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r backend/requirements.txt || true
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
 
       - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm ci || true
+        working-directory: frontend
+        run: npm ci
 
-      - name: Lint & Type Check
+      - name: Lint & Type Check (backend)
         run: |
-          echo "Run linting and type checks (placeholder)"
+          echo "Add backend lint and type check commands here, e.g., flake8, mypy"
 
-      - name: Run tests
+      - name: Lint & Type Check (frontend)
+        working-directory: frontend
         run: |
-          echo "Run tests (placeholder)"
+          echo "Add frontend lint and type check commands here, e.g., npm run lint, tsc"
+
+      - name: Run backend tests
+        run: |
+          echo "Add backend test command here, e.g., pytest"
+
+      - name: Run frontend tests
+        working-directory: frontend
+        run: |
+          echo "Add frontend test command here, e.g., npm test"
